@@ -6,8 +6,58 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    body{
+      margin: 0;
+      padding: 0;
+    }
+    .pre-bootstrap-loader {
+      position: fixed;
+      z-index: 1000;
+      height:100%;
+      width: 100%;
+      background-color: red;
+      top:0;
+    }
+    .pre-bootstrap-loaded{
+      animation: example 4s forwards;
+      /* animation-duration: 4s; */
+    }
+    @keyframes example {
+      from {background-color: red;}
+      to {background-color: rgba(0, 0, 0, 0);}
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+  <div class="pre-bootstrap-loader" id="pre-bootstrap-container">
+  </div>
+  <app-root>
+  </app-root>
 </body>
+<script type="text/javascript">
+
+  // Listen for the "appready" event, which will be emitted by the application
+  // and bubble up (as far as we know) to the document root.
+  document.addEventListener( "appready", (handleAppReady) );
+
+
+  // I handle the "appready" event and teardown the loading screen.
+  function handleAppReady( event ) {
+    var preBootstrapContainer = document.getElementById( "pre-bootstrap-container" );
+    preBootstrapContainer.classList.add('pre-bootstrap-loaded');
+    setTimeout(
+					function removeLoadingScreen() {
+
+						preBootstrapContainer
+							.parentNode
+								.removeChild( preBootstrapContainer )
+						;
+
+					},
+					4500
+				);
+  }
+
+</script>
 </html>
